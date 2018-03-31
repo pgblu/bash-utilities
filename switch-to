@@ -1,0 +1,54 @@
+#!/bin/bash
+set -e
+
+
+
+main() {
+    changeLocalBranch
+}
+
+changeLocalBranch() {
+    # The --color setting is from pblume.
+    branch=`git branch | grep --color=never $patt | tr -d [\*]`
+    count=$(echo "$branch" | sed '/^\s*$/d' | wc -l)
+    
+    if [ $count -eq 1 ]; then
+        git checkout $branch
+        exit 0
+    fi
+    
+    if [ $count -eq 0 ]; then
+        error "Branch with pattern *$patt* not found.\n\n"
+        exit 1
+    fi
+    
+    if [ $count -gt 1 ]; then
+        error "Cannot resolve pattern *$patt* to a single branch.\n\n"
+        info "All matching branches: \n$branch\n"
+        exit 1
+    fi
+    
+    error "Unknown error with pattern *$patt*.\n\n"
+}
+
+showUsage() {
+    info "Usage: switch-to pattern"
+}
+
+error() {
+    printf "Error: $*" 1>&2
+}
+
+info() {
+    printf "Info: $*"
+}
+
+if [ $# -ne 1 ]; then
+    error "Incorrect number of parameters (expect 1 pattern, but got $#).\n\n"
+    showUsage
+    exit 1
+fi
+
+patt=$1
+
+main
