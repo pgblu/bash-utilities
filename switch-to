@@ -1,7 +1,7 @@
 #!/bin/bash
-# I did not write this script myself
-# built by Lin Guo, all credit to Lin Guo
-# he hasn't shared it himself, because he probably isn't happy with it
+# I did not write this script myself.
+# built by Lin Guo, all credit to Lin Guo.
+# he hasn't shared it himself, because he probably isn't happy with it.
 # but I use it and encourage others to do so as well.
 
 set -e
@@ -13,7 +13,7 @@ main() {
 }
 
 changeLocalBranch() {
-    # The --color setting is from pblume.
+    # The --color setting is from pgblu.
     branch=`git branch | grep --color=never $patt | tr -d [\*]`
     count=$(echo "$branch" | sed '/^\s*$/d' | wc -l)
     
